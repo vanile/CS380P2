@@ -29,15 +29,8 @@ public class PhysLayerClient {
 			reverseTranslate(NRZI);
 
 			//print decoded message
-			System.out.print("Received 32 bytes: ");
-			for (int i = 0; i < decodedBytes.length; i++) {
-				System.out.printf("%02X", decodedBytes[i]);
-			}
-			System.out.println();
-
-			for (int i = 0; i < decodedBytes.length; i++) {
-				os.write(decodedBytes[i]);
-			}
+			printDecodedBytes();
+			sendDecodedBytes(os);
 
 			//server response
 			int response = is.read();
@@ -49,7 +42,20 @@ public class PhysLayerClient {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
 
+	private static void sendDecodedBytes(OutputStream os) throws IOException {
+		for (int i = 0; i < decodedBytes.length; i++) {
+			os.write(decodedBytes[i]);
+		}
+	}
+
+	private static void printDecodedBytes() {
+		System.out.print("Received 32 bytes: ");
+		for (int i = 0; i < decodedBytes.length; i++) {
+				System.out.printf("%02X", decodedBytes[i]);
+			}
+			System.out.println();
 	}
 
 	private static void initialize4B5Btable() {
